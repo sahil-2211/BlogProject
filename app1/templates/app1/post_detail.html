@@ -1,0 +1,65 @@
+{% extends 'app1/base.html' %} {% block content %} 
+<article class="media content-section">
+  <div class="row">
+    <div class="col-md-2 d-flex align-items-center justify-content-center">
+      <img
+        class="col-md-10 rounded-circle"
+        src="{{ object.author.profile.image.url }}"
+      />
+    </div>
+    <div class="media-body col-md-10">
+      <div class="article-metadata">
+        <a
+          class="mr-2 text-decoration-none"
+          href="{% url 'user-posts' post.author.username %}"
+          >{{ object.author }}</a
+        >
+        <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
+      </div>
+      <h2>
+        <a
+          class="article-title text-decoration-none"
+          href=""
+          >{{ object.title }}</a
+        >
+      </h2>
+      <p class="article-content">{{ post.content }}</p>
+      <small class="text-muted">{{object.date_posted|date:"F d,y"}}</small>
+      {%if object.author ==  user %}
+      <div>
+        <a 
+        href ="{% url 'post-update' object.pk %}"
+        class = "btn btn-secondary btn-sm mt-1 mb-1">
+    Update</a>
+    <a
+    href="{% url 'post-delete' object.pk %}"
+    class="btn btn-danger btn-sm mt-1 mb-1">Delete</a>
+      </div>
+    {% endif %}
+    </div>
+  </div>
+</article>
+{% comment %} {% if is_paginated %} {% if page_obj.has_previous %}
+<a href="?page=1" class="btn btn-outline-info mb-4">First</a>
+<a
+  href="?page={{ page_obj.previous_page_number }}"
+  class="btn btn-outline-info mb-4"
+  >Previous</a
+>
+{% endif %} {% for num in page_obj.paginator.page_range %} {% if page_obj.number
+== num %}
+<a href="?page={{ num }}" class="btn btn-info mb-4">{{ num }}</a>
+{% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+<a href="?page={{ num }}" class="btn btn-outline-info mb-4">{{ num }}</a>
+{% endif %} {% endfor %} {% if page_obj.has_next %}
+<a
+  href="?page={{ page_obj.next_page_number }}"
+  class="btn btn-outline-info mb-4"
+  >Next</a
+>
+<a
+  href="?page={{ page_obj.paginator.num_pages }}"
+  class="btn btn-outline-info mb-4"
+  >Last</a
+>
+{% endif %} {% endif %} {% endcomment %} {% endblock content%}
